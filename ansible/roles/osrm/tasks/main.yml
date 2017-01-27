@@ -1,0 +1,46 @@
+---
+## Install dependency packages and compile osrm
+
+- name: create osrm user
+  user:
+    name: "{{ osrm_role_name }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+
+- name: install dependency packages for osrm compilation
+  apt:
+    pkg: "{{ item }}"
+    state: present
+  with_items: "{{ osrm_ubuntu_pkgs }}"
+
+- name: clone the github repository
+  git:
+    repo: https://github.com/DennisOSRM/Project-OSRM.git
+    dest: "{{osrm_dest_dir}}"
+    version: "{{osrm_version}}"
+
+- name: create build directory
+  file:
+    dest: "{{osrm_dest_dir}}/build"
+    mode: 755
+    owner: root
+    group: root
+    state: directory
+
+- name: run cmake command
+  shell:
+    cmake ..
+  args:
+    chdir: "{{osrm_dest_dir}}/build"
+
+- name: run make command
+  shell:
+    make -j {{osrm_make_jobs}}
+  args:
+    chdir: "{{osrm_dest_dir}}/build"
+
+- name: run make install command
+  shell:
+    make install
+  args:
+    chdir: "{{osrm_dest_dir}}/build"

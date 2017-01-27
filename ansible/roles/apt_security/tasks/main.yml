@@ -1,0 +1,14 @@
+---
+## Install recent Ubuntu security patchs from APT repositories.
+
+- name: make a seperate source list to install security updates
+  shell:
+    cat /etc/apt/sources.list | grep security >/etc/apt/security.sources.list
+
+- name: update apt cache
+  apt:
+    update_cache: yes
+
+- name: install security updates
+  shell:
+    apt-get upgrade -oDir::Etc::SourceList=/etc/apt/security.sources.list --force-yes -y

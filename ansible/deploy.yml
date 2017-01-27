@@ -1,0 +1,21 @@
+---
+## An Ansible playbook to deploy OSRM project on
+## single Ubuntu 16.04 machine. This playbook written by
+## Roozbeh Shafiee (me@roozbeh.cloud)
+
+- hosts: all
+  become: true
+  become_user: root
+  gather_facts: no
+
+  pre_tasks:
+    - name: install python 2.7 on ubuntu 16.04
+      raw: sudo apt-get update && sudo apt-get -y install python-simplejson
+
+  roles:
+    - apt_security
+    - osrm
+    - osrm_data
+    - supervisor
+    - nginx_reverse_proxy
+    #- finkcrow

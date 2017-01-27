@@ -1,0 +1,25 @@
+---
+## Install NGINX as a reverse proxy in front of osrm built-in web server.
+
+- name: install nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: add nginx reverse proxy config file
+  template:
+    src: "./osrm.conf"
+    dest: "/etc/nginx/sites-available/osrm.conf"
+    mode: 0644
+
+- name: enable nginx vhost
+  file:
+    src: /etc/nginx/sites-available/osrm.conf
+    dest: /etc/nginx/sites-enabled/osrm.conf
+    state: link
+
+- name: restart nginx service
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes

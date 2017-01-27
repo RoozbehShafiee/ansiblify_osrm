@@ -1,0 +1,9 @@
+---
+# Define country name to fetch data
+data_country_name: germany
+
+# Define city name to fetch data
+data_city_name: berlin
+
+# Define osrm home directory
+osrm_datadir: /home/osrm

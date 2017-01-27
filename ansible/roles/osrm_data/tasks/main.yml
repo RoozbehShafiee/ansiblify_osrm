@@ -1,0 +1,31 @@
+---
+## Apply geo-location data on osrm
+
+- name: download country and city data file (.osm.pbf)
+  get_url:
+    url: http://download.geofabrik.de/europe/{{data_country_name}}/{{data_city_name}}-latest.osm.pbf
+    dest: /home/osrm/{{data_city_name}}-latest.osm.pbf
+    force: no
+    mode: 0644
+
+- name: copy profile.lua to osrm home directory
+  shell:
+    cp /usr/local/src/osrm/profiles/car.lua /home/osrm/profile.lua
+
+- name: configure stxxl
+  template:
+    src: "./home/osrm/.stxxl.j2"
+    dest: "{{osrm_datadir}}/.stxxl"
+    mode: 0644
+
+- name: extract geo-location data
+  shell:
+    osrm-extract /home/osrm/{{data_city_name}}-latest.osm.pbf
+  args:
+    chdir: "{{osrm_datadir}}"
+
+- name: prepare geo-location data
+  shell:
+    osrm-prepare /home/osrm/{{data_city_name}}-latest.osrm
+  args:
+    chdir: "{{osrm_datadir}}"

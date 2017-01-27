@@ -1,0 +1,19 @@
+---
+## Daemonize osrm by supervisor
+
+- name: install supervisor
+  apt:
+    name: supervisor
+    state: present
+
+- name: add osrm supervisor config file
+  template:
+    src: "./osrm.conf"
+    dest: "/etc/supervisor/conf.d/osrm.conf"
+    mode: 0644
+
+- name: start and enable supervisor service
+  service:
+    name: supervisor
+    state: restarted
+    enabled: yes
