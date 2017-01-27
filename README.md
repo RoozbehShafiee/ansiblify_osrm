@@ -1,5 +1,6 @@
 # Ansiblify OSRM
-Ansible playbook to setup and running OSRM (Open Source Routing Machine)
+
+This is a simple Ansible playbook to setup, configure and running OSRM (Open Source Routing Machine) on a single ubuntu instance.
 For further information about OSRM and how does it work, follow below links:
 
 * http://project-osrm.org
