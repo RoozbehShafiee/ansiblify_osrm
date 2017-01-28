@@ -1,0 +1,27 @@
+---
+## Setup Finkcrow for monitoring and alerting NGINX service.
+## This playbook has written for NGINX service and could be
+## setup for other running services.
+
+- name: add Finkcrow script
+  template:
+    src: "./finkcrow.sh"
+    dest: "/opt/finkcrow.sh"
+    mode: a+x
+
+- name: add Finkcrow config file
+  template:
+    src: "./finkcrow.conf"
+    dest: "/etc/finkcrow.conf"
+    mode: 0644
+
+- name: add Finkcrow supervisor config file
+  template:
+    src: "./finkcrow_supervisor.conf"
+    dest: "/etc/supervisor/conf.d/finkcrow_supervisor.conf"
+    mode: 0644
+
+- name: restart supervisor service
+  service:
+    name: supervisor
+    state: restarted
