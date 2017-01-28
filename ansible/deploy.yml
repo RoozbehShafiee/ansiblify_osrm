@@ -18,4 +18,4 @@
     - osrm_data
     - supervisor
     - nginx_reverse_proxy
-    #- finkcrow
+    - finkcrow
